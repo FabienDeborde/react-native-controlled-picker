@@ -9,7 +9,10 @@ const marginTop = (data, itemHeight = 32, listPadding = 20) => {
   const count = data.length ? data.length : 0
   const itemsHeight = count * itemHeight
   const statusHeight = StatusBar.currentHeight || 0
-  return (height / 2) - (itemsHeight / 2) - listPadding - statusHeight
+  const marginCalc = (height / 2) - (itemsHeight / 2) - listPadding - statusHeight
+  // For long list the margin calculation returns a negative number, resulting of part of the list being unaccessible
+  // Added a quick check to default the margin to 0 in these cases
+  return (marginCalc > 0) ? marginTop : 0
 }
 
 const Modal = ({ open, data, style, listStyle, itemStyle, onClose }) => (
